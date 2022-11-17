@@ -37,12 +37,13 @@ class ToDoDetailTableViewController: UITableViewController {
         }
 
     }
-    
+    // prepare to update the prev screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         toDoItem = nameField.text
     }
 
 
+    // action of cancel button
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         let isPresentingInAddMode = presentingViewController is UINavigationController
         if isPresentingInAddMode {

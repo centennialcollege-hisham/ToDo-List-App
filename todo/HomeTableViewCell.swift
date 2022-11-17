@@ -29,6 +29,8 @@ class HomeTableViewCell: UITableViewCell {
         // Initialization code
     }
     
+    
+    // fill data on cell views
     func setupCell(data:TodoItem){
         
         labelTitle.text = data.title

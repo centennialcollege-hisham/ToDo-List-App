@@ -27,8 +27,9 @@ class TodoViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        // Do any additional setup after loading the view.
         
+        
+        // add list data
         arrTodoItems.append(TodoItem(title: "Assigment2", date: "", desc: "", status: 1))
         arrTodoItems.append(TodoItem(title: "Assigment3", date: "Sunday 13 NOV", desc: "", status: 2))
         arrTodoItems.append(TodoItem(title: "Assigment4", date: "Sunday 13 NOV", desc: "", status: 3))
@@ -51,6 +52,8 @@ class TodoViewController: UIViewController {
     
     
     
+    // to receive the data from details and apply it - TODO
+    
 //    @IBAction func unwindFromDetails(seque:UIStoryboardSegue){
 //        let source = seque.source as! ToDoDetailTableViewController
 //        if let selectedIndexPath = tableView.indexPathForSelectedRow{
@@ -70,16 +73,14 @@ class TodoViewController: UIViewController {
 
 
 
-
+// Implement the table view and set the count and cell data
 extension TodoViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("number of Rows In Section was just called. Returning \(arrTodoItems.count)" )
         return arrTodoItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        print("index - \(indexPath.row) and contain \(arrTodoItems[indexPath.row])")
         let cell=tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! HomeTableViewCell
         
         let data = arrTodoItems[indexPath.row] as TodoItem
@@ -91,7 +92,7 @@ extension TodoViewController : UITableViewDelegate,UITableViewDataSource {
 }
 
 
-
+// Model
 
 struct TodoItem {
     let title : String
