@@ -25,8 +25,25 @@ class ToDoListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        loadData()
+        loadData()  // aqui se carga y se verfica que las tareas no esten psadas de fecha para luego mostrarselas al  usuario
+        
+        setSelectionCell(indexCell: 0)
+        
         autherizeLocalNotifications()
+    }
+    
+    
+    func setSelectionCell( indexCell: Int){
+        if (toDoItems.count > 0 ) {
+            // Coloca todos los item del arreglo en selected cell a false menos la del index cell
+            for index in 0..<toDoItems.count {
+                toDoItems[index].isSelected = false
+            }
+            
+            tableView.selectRow(at: IndexPath(row: indexCell, section: 0), animated: true,scrollPosition:.none )
+            toDoItems[indexCell].isSelected = true
+        
+        }
     }
     
     func autherizeLocalNotifications(){
@@ -54,9 +71,16 @@ class ToDoListViewController: UIViewController {
         
         //and let's re-create them with the updated data that we just saved
         for index in 0..<toDoItems.count {
-            if toDoItems[index].reminderSet {
-                 let toDoItem = toDoItems[index]
-                toDoItems[index].notificationID = setCalendarNotification(title: toDoItem.name, subtitle: "", body: toDoItem.notes, badgeNumber: nil, sound: .default, date: toDoItem.date)
+            if toDoItems[index].hasDueDate {
+                let toDoItem = toDoItems[index]
+                
+                toDoItems[index].notificationID = setCalendarNotification(
+                    title: toDoItem.name,
+                    subtitle: "",
+                    body: toDoItem.notes,
+                    badgeNumber: nil,
+                    sound: .default,
+                    date: toDoItem.dueDate)
             }
         }
     }
@@ -92,6 +116,26 @@ class ToDoListViewController: UIViewController {
         return notificationID
     }
     
+    func validateTasks() {
+        // validte old dates for all items and set status task in 2 states
+        for i in stride(from: 0 , to: toDoItems.count, by: 1) {
+            // if item data if old data change status toOverDue
+            if (toDoItems[i].dueDate < Date() ){
+                toDoItems[i].statusTask = 2
+            }
+            
+            if (toDoItems[i].isCompleted == true){
+                toDoItems[i].statusTask = 1
+            }
+        }
+        
+        saveData()
+    }
+    
+    
+    
+    
+    
     // upload json into array toDoItems
     func loadData() {
         let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -101,7 +145,12 @@ class ToDoListViewController: UIViewController {
         let jsonDecoder = JSONDecoder()
         do {
             toDoItems = try jsonDecoder.decode(Array<ToDoItem>.self, from:data)
+            
+            // validamos que las tareas cargadas no esten fuera de fecha
+            validateTasks()
+            
             tableView.reloadData()
+            
         } catch {
             print("😡, ERROR: Could, not load data\(error.localizedDescription)")
         }
@@ -142,21 +191,57 @@ class ToDoListViewController: UIViewController {
         }
     }
     
+    
+    
+    
     @IBAction func unwindFromDetail(segue: UIStoryboardSegue) {
+        var indexSelectedCell: Int
         let source = segue.source as! ToDoDetailTableViewController
         if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            indexSelectedCell = selectedIndexPath.row
             toDoItems[selectedIndexPath.row] = source.toDoItem
             tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
         } else {
+            indexSelectedCell = toDoItems.count
             let newIndexPath = IndexPath(row: toDoItems.count, section: 0)
             toDoItems.append(source.toDoItem)
             tableView.insertRows(at: [newIndexPath], with: .bottom)
+            tableView.reloadData()
             tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
+            
+            
         }
-        saveData()
         
+        setSelectionCell( indexCell: indexSelectedCell) // coloca la seleccion actual en el arreglo
+        
+        saveData()
+        loadData()
+        setSelectionCell( indexCell: indexSelectedCell) 
+    }
+    // update iscomplete
+    @IBAction func completeTaskSwitch(_ sender: UISwitch) {
+       
+        if let selectedCell = tableView.indexPathForSelectedRow{
+            var indexSelectedCell: Int
+            
+            indexSelectedCell = selectedCell.row
+            // the cell is selected and pain in blue color
+            if(sender.isOn == true){
+                toDoItems[selectedCell.row].isCompleted = false
+            } else {
+                toDoItems[selectedCell.row].isCompleted = true
+            }
+            setSelectionCell( indexCell: indexSelectedCell)
+            saveData()
+            loadData() // reload all items with currend dates
+            setSelectionCell( indexCell: indexSelectedCell)
+        } else {
+            // in this case, not exist a selected cell
+
+        }
         
     }
+    
     @IBAction func editButtomPressed(_ sender: UIBarButtonItem) {
         if tableView.isEditing {
             tableView.setEditing(false, animated: true)
@@ -180,12 +265,17 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         return toDoItems.count
     }
     
+    // active with all items desde el tableview.reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //print("cellForRowAt was just called for indexPath.row = \(indexPath.row) which is the cell containing \(toDoItems[indexPath.row])")
         let customCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomCellTableViewCell
+        
         let dataItem = toDoItems[indexPath.row] as ToDoItem // Get data for item array
-        customCell.setupCell(cellData: dataItem) // load information in view custom view cell
-        return customCell
+        customCell.putDataInControlsCell(cellData: dataItem, indexRow: indexPath.row) // load information in view custom view cell, paint in red
+        
+        //cell.textLabel?.text = toDoArray[indexPath.row] //add array item to cell's textLabel (which xcode
+        //gives us. indexPath.row is the array element number)
+        return customCell // return a cell painted with data
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

@@ -8,10 +8,12 @@
 import Foundation
 
 struct ToDoItem: Codable {
+    var isSelected: Bool?
     var name: String
-    var date: Date
+    var dueDate: Date
     var notes: String
-    var statusTask: Int
-    var reminderSet: Bool  // It's a switch
+    var isCompleted: Bool?
+    var statusTask: Int?
+    var hasDueDate: Bool  // It's a switch
     var notificationID: String?
 }

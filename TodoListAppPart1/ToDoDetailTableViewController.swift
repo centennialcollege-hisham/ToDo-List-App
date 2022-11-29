@@ -36,11 +36,14 @@ class ToDoDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         
         if toDoItem == nil {
-            toDoItem = ToDoItem(name: "",
-                                date: Date().addingTimeInterval(24*60*60),
+            toDoItem = ToDoItem(isSelected: false,
+                                name: "",
+                                dueDate: Date().addingTimeInterval(24*60*60),
                                 notes: "",
+                                isCompleted: false,
                                 statusTask: 0,
-                                reminderSet: false)
+                                hasDueDate: false)
+            nameField.becomeFirstResponder()
         }
         updateUserInterface()
         
@@ -49,20 +52,20 @@ class ToDoDetailTableViewController: UITableViewController {
     func updateUserInterface(){
         // Show data in view
         nameField.text = toDoItem.name
-        datePicker.date = toDoItem.date
+        datePicker.date = toDoItem.dueDate
         noteView.text = toDoItem.notes
-        reminderSwitch.isOn = toDoItem.reminderSet
+        reminderSwitch.isOn = toDoItem.hasDueDate
         dateLabel.textColor = (reminderSwitch.isOn ? .black : .gray)
-        dateLabel.text = dateFormatter.string(from: toDoItem.date)
+        dateLabel.text = dateFormatter.string(from: toDoItem.dueDate)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get data from viewform to itemclass cell toDoitem
         toDoItem = ToDoItem(name: nameField.text!,
-                            date: datePicker.date,
+                            dueDate: datePicker.date,
                             notes: noteView.text,
-                            statusTask: 0,
-                            reminderSet: reminderSwitch.isOn)
+                            statusTask: 0 ,
+                            hasDueDate: reminderSwitch.isOn)
     }
     
 
