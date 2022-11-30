@@ -1,12 +1,23 @@
-//
-//  ViewController.swift
-//  TodoListAppPart1
-//
-//  Created by Victor Quezada on 2022-11-24.
-//
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
+
+// Date: 27-Nov-2022
+
+// App description:
+// Assignment 5 – Todo List App - Part 2 - Logic for Data Persistence
 
 import UIKit
 import UserNotifications
+
+// Class shows:
+//code for notifications, the user can configure notifications using calendar
+//load data
+//save data
+//complete tasks
+//code for edit button
 
 class ToDoListViewController: UIViewController {
     
@@ -25,7 +36,8 @@ class ToDoListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        loadData()  // aqui se carga y se verfica que las tareas no esten psadas de fecha para luego mostrarselas al  usuario
+        // Loading and verifing that the tasks are not out of date and then show them to the user.
+        loadData()
         
         setSelectionCell(indexCell: 0)
         
@@ -35,7 +47,8 @@ class ToDoListViewController: UIViewController {
     
     func setSelectionCell( indexCell: Int){
         if (toDoItems.count > 0 ) {
-            // Coloca todos los item del arreglo en selected cell a false menos la del index cell
+            
+            // Set all items of the array in selected cell to false except the index cell
             for index in 0..<toDoItems.count {
                 toDoItems[index].isSelected = false
             }
@@ -66,10 +79,11 @@ class ToDoListViewController: UIViewController {
         guard toDoItems.count > 0 else {
             return
         }
+        
         //remove all notifications
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
-        //and let's re-create them with the updated data that we just saved
+        //Let's re-create them with the updated data that we just saved
         for index in 0..<toDoItems.count {
             if toDoItems[index].hasDueDate {
                 let toDoItem = toDoItems[index]
@@ -95,17 +109,17 @@ class ToDoListViewController: UIViewController {
             content.sound = sound
             content.badge = badgeNumber
         
-            //create trigger
+            //Create trigger
             var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
             dateComponents.second = 00
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
             
-            // create request
+            // Create request
             let notificationID = UUID().uuidString
             let request = UNNotificationRequest(identifier: notificationID, content: content, trigger: trigger)
             
-            //register rquest with the notification center
-        UNUserNotificationCenter.current().add(request) { (error) in
+            //Record the request with the notification center
+            UNUserNotificationCenter.current().add(request) { (error) in
             if let error = error {
                 print("😡 ERROR: \(error.localizedDescription) Yikes, adding notification request went wrong!")
             } else {
@@ -117,9 +131,10 @@ class ToDoListViewController: UIViewController {
     }
     
     func validateTasks() {
-        // validte old dates for all items and set status task in 2 states
+        // Validate old dates for all items and set status task in 2 states
         for i in stride(from: 0 , to: toDoItems.count, by: 1) {
-            // if item data if old data change status toOverDue
+            
+            // If item data has old data, it will change status to OverDue
             if (toDoItems[i].dueDate < Date() ){
                 toDoItems[i].statusTask = 2
             }
@@ -132,10 +147,6 @@ class ToDoListViewController: UIViewController {
         saveData()
     }
     
-    
-    
-    
-    
     // upload json into array toDoItems
     func loadData() {
         let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -146,7 +157,7 @@ class ToDoListViewController: UIViewController {
         do {
             toDoItems = try jsonDecoder.decode(Array<ToDoItem>.self, from:data)
             
-            // validamos que las tareas cargadas no esten fuera de fecha
+            //Validate that uploaded tasks are not out of date
             validateTasks()
             
             tableView.reloadData()
@@ -155,9 +166,6 @@ class ToDoListViewController: UIViewController {
             print("😡, ERROR: Could, not load data\(error.localizedDescription)")
         }
     }
-    
-    
-    
     
     func saveData(){
         let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -178,7 +186,6 @@ class ToDoListViewController: UIViewController {
         
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail" {
             let destination = segue.destination as! ToDoDetailTableViewController
@@ -190,9 +197,6 @@ class ToDoListViewController: UIViewController {
             }
         }
     }
-    
-    
-    
     
     @IBAction func unwindFromDetail(segue: UIStoryboardSegue) {
         var indexSelectedCell: Int
@@ -209,23 +213,24 @@ class ToDoListViewController: UIViewController {
             tableView.reloadData()
             tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
             
-            
         }
         
-        setSelectionCell( indexCell: indexSelectedCell) // coloca la seleccion actual en el arreglo
+        //Set up the current selecction in the array
+        setSelectionCell( indexCell: indexSelectedCell)
         
         saveData()
         loadData()
         setSelectionCell( indexCell: indexSelectedCell) 
     }
-    // update iscomplete
+    // update is complete
     @IBAction func completeTaskSwitch(_ sender: UISwitch) {
        
         if let selectedCell = tableView.indexPathForSelectedRow{
             var indexSelectedCell: Int
             
             indexSelectedCell = selectedCell.row
-            // the cell is selected and pain in blue color
+            
+            // The cell is selected
             if(sender.isOn == true){
                 toDoItems[selectedCell.row].isCompleted = false
             } else {
@@ -233,11 +238,12 @@ class ToDoListViewController: UIViewController {
             }
             setSelectionCell( indexCell: indexSelectedCell)
             saveData()
-            loadData() // reload all items with currend dates
+            
+            // reload all items with currend date
+            loadData()
             setSelectionCell( indexCell: indexSelectedCell)
         } else {
-            // in this case, not exist a selected cell
-
+            
         }
         
     }
@@ -265,7 +271,7 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         return toDoItems.count
     }
     
-    // active with all items desde el tableview.reload
+    // Active status with all items from tableview reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //print("cellForRowAt was just called for indexPath.row = \(indexPath.row) which is the cell containing \(toDoItems[indexPath.row])")
         let customCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomCellTableViewCell
@@ -275,7 +281,9 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         
         //cell.textLabel?.text = toDoArray[indexPath.row] //add array item to cell's textLabel (which xcode
         //gives us. indexPath.row is the array element number)
-        return customCell // return a cell painted with data
+        
+        // return a cell painted with data
+        return customCell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

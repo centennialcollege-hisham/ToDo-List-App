@@ -1,9 +1,13 @@
-//
-//  CustomCellTableViewCell.swift
-//  TodoListAppPart1
-//
-//  Created by Victor Quezada on 2022-11-27.
-//
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
+
+// Date: 27-Nov-2022
+
+// App description:
+// Assignment 5 – Todo List App - Part 2 - Logic for Data Persistence
 
 import UIKit
 
@@ -15,6 +19,8 @@ private let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
+// Class shows the code when the task is complete or not
+
 class CustomCellTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
@@ -25,7 +31,7 @@ class CustomCellTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+    // Configure the view for the selected state
     }
     
     // Object from custom view cell title status and switch
@@ -34,9 +40,9 @@ class CustomCellTableViewCell: UITableViewCell {
     @IBOutlet weak var switchStatus: UISwitch!
     
     var IndexCell: Int?
-    // even for completed tastk
+    // even for completed tasks
     
-    // Show info data from array todoitems to Objects to custom cell in list table view
+    // Show info data from array todoitems to Objects to custom cell in table view list
     func putDataInControlsCell(cellData: ToDoItem , indexRow: Int ){
         
         IndexCell = indexRow
@@ -74,9 +80,7 @@ class CustomCellTableViewCell: UITableViewCell {
             labelStatus.textColor = UIColor.red
            
         } else if (cellData.statusTask == 0){
-            // cero
-            // la tarea esta en estado activa  porlotanto se debe hacer un
-            // analisis de la fecha de estado pero en la carga de datos no aqui aqui solo se muestra
+            
             let attributedText = NSAttributedString(
                 string: cellData.name
             )

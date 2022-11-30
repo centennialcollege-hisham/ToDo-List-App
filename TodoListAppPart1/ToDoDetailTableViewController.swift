@@ -1,9 +1,13 @@
-//
-//  ToDoDetailTableViewController.swift
-//  TodoListAppPart1
-//
-//  Created by Victor Quezada on 2022-11-24.
-//
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
+
+// Date: 27-Nov-2022
+
+// App description:
+// Assignment 5 – Todo List App - Part 2 - Logic for Data Persistence
 
 import UIKit
 
@@ -14,6 +18,12 @@ private let dateFormatter: DateFormatter = {
     dateFormatter.timeStyle = .short
     return dateFormatter
 }()
+
+
+// Class shows:
+//All buttons, fields, datapickers, note views, reminder, calendars
+//All interfaces
+//Cancel button
 
 class ToDoDetailTableViewController: UITableViewController {
 
@@ -60,7 +70,7 @@ class ToDoDetailTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get data from viewform to itemclass cell toDoitem
+        // Get data from view to item class cell toDoitem
         toDoItem = ToDoItem(name: nameField.text!,
                             dueDate: datePicker.date,
                             notes: noteView.text,
@@ -68,7 +78,6 @@ class ToDoDetailTableViewController: UITableViewController {
                             hasDueDate: reminderSwitch.isOn)
     }
     
-
     @IBAction func cancelButtonPress(_ sender: UIBarButtonItem) {
         let isPresentingInAddMode = presentingViewController is UINavigationController
         if isPresentingInAddMode {
@@ -77,8 +86,6 @@ class ToDoDetailTableViewController: UITableViewController {
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    
     
     @IBAction func reminderSwitchChanged(_ sender: UISwitch) {
         dateLabel.textColor = (reminderSwitch.isOn ? .black : .gray)

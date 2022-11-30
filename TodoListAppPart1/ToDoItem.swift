@@ -1,9 +1,13 @@
-//
-//  ToDoItem.swift
-//  TodoListAppPart1
-//
-//  Created by Victor Quezada on 2022-11-25.
-//
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
+
+// Date: 27-Nov-2022
+
+// App description:
+// Assignment 5 – Todo List App - Part 2 - Logic for Data Persistence
 
 import Foundation
 
