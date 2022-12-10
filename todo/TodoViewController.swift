@@ -20,7 +20,9 @@ class TodoViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
 
-    var arrTodoItems = [TodoItem]()
+    //var arrTodoItems = [TodoItem]()
+    
+    var arrTodoItems: [TodoItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +30,14 @@ class TodoViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        loadData()
+        
         
         // add list data
-        arrTodoItems.append(TodoItem(title: "Assigment2", date: "", desc: "", status: 1))
-        arrTodoItems.append(TodoItem(title: "Assigment3", date: "Sunday 13 NOV", desc: "", status: 2))
-        arrTodoItems.append(TodoItem(title: "Assigment4", date: "Sunday 13 NOV", desc: "", status: 3))
-        arrTodoItems.append(TodoItem(title: "Assigment6", date: "", desc: "", status: 1))
+//        arrTodoItems.append(TodoItem(title: "Assigment2", date: "", desc: "", status: 1))
+//        arrTodoItems.append(TodoItem(title: "Assigment3", date: "Sunday 13 NOV", desc: "", status: 2))
+//        arrTodoItems.append(TodoItem(title: "Assigment4", date: "Sunday 13 NOV", desc: "", status: 3))
+//        arrTodoItems.append(TodoItem(title: "Assigment6", date: "", desc: "", status: 1))
 
     }
     
@@ -49,6 +53,38 @@ class TodoViewController: UIViewController {
         }
     }
 
+    
+    func loadData() {
+        let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentURL = directoryURL.appendingPathComponent("todos").appendingPathExtension("json")
+        
+        guard let data = try? Data(contentsOf: documentURL) else {return}
+        let jsonDecoder = JSONDecoder()
+        do {
+            arrTodoItems = try jsonDecoder.decode(Array<TodoItem>.self, from:data)
+            tableView.reloadData()
+        } catch {
+            print("😡, ERROR: Could, not load data\(error.localizedDescription)")
+        }
+    }
+    
+    
+    func saveData(){
+        let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentURL = directoryURL.appendingPathComponent("todos").appendingPathExtension("json") // app/todos.json
+        
+        let jsonEncoder = JSONEncoder()
+        let data = try? jsonEncoder.encode(arrTodoItems)
+        do {
+            try data?.write(to: documentURL, options: .noFileProtection)
+        } catch {
+            print("😡, ERROR: Could, not save data\(error.localizedDescription)")
+        }
+        
+        //setNotifications()
+        
+    }
+    
     
     
     
@@ -79,9 +115,10 @@ extension TodoViewController : UITableViewDelegate,UITableViewDataSource {
         return arrTodoItems.count
     }
     
+    // show all items of table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell=tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! HomeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! HomeTableViewCell
         
         let data = arrTodoItems[indexPath.row] as TodoItem
         cell.setupCell(data: data)
@@ -92,11 +129,5 @@ extension TodoViewController : UITableViewDelegate,UITableViewDataSource {
 }
 
 
-// Model
 
-struct TodoItem {
-    let title : String
-    let date : String
-    let desc : String
-    let status : Int
-}
+
