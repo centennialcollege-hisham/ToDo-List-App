@@ -1,8 +1,12 @@
 //
 //  SceneDelegate.swift
+//  TodoListApp
 //
-//  Created by Hisham Sanimeh on 13/11/2022.
-//
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
 
 import UIKit
 

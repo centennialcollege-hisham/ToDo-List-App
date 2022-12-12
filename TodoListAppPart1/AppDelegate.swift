@@ -1,18 +1,26 @@
 //
 //  AppDelegate.swift
-
-//  Created by Hisham Sanimeh on 13/11/2022.
+//  TodoListApp
 //
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
 
 import UIKit
+import UserNotifications
+
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        
         return true
     }
 
@@ -32,4 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
+
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let id = notification.request.identifier
+                print("Received in-app notification with ID = \(id)")
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        completionHandler([.alert, .sound])
+    }
+}
+    
 
