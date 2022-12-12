@@ -1,9 +1,12 @@
 //
 //  SceneDelegate.swift
-//  TodoListAppPart1
+//  TodoListApp
 //
-//  Created by Victor Quezada on 2022-11-24.
-//
+// Authors
+// Name: Hisahm Abu Sanimeh
+// StudentID: 301289364
+// Name: Fernando Quezada
+// StudentID: 301286477
 
 import UIKit
 

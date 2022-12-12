@@ -1,3 +1,6 @@
+//  ToDoListViewController.swift
+//  TodoListApp
+
 // Authors
 // Name: Hisahm Abu Sanimeh
 // StudentID: 301289364
@@ -7,7 +10,7 @@
 // Date: 27-Nov-2022
 
 // App description:
-// Assignment 5 – Todo List App - Part 2 - Logic for Data Persistence
+// Assignment 6 – – Todo List App - Part 3 – Gesture Control
 
 import UIKit
 import UserNotifications
@@ -59,6 +62,7 @@ class ToDoListViewController: UIViewController {
         }
     }
     
+
     func autherizeLocalNotifications(){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error)
             in
@@ -192,6 +196,8 @@ class ToDoListViewController: UIViewController {
         self.saveData()
     }
     
+    
+    // Send data
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail" {
             let destination = segue.destination as! ToDoDetailTableViewController
@@ -281,6 +287,7 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         saveData()
     }
 
+    // Swipe Edit with blue left to right
     // Leading -> Left
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title: "Edit", handler: { (action, sourceView, completionHandler) in
@@ -291,6 +298,10 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
 
         return UISwipeActionsConfiguration(actions: [editAction])
     }
+
+    
+    // long Swipe Delete - red right to left
+    // Swipe complete with yellow right to left
 
     // Trailing -> Right
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -304,7 +315,7 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
             self.setSelectionCell(indexCell: indexPath.row)
         })
 
-        completeAction.backgroundColor = .orange
+        completeAction.backgroundColor = .orange // yellow
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, sourceView, completionHandler) in
             self.removeTask(at: indexPath)

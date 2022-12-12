@@ -7,7 +7,7 @@
 // Date: 27-Nov-2022
 
 // App description:
-// Assignment 5 – Todo List App - Part 2 - Logic for Data Persistence
+// Assignment 6 – – Todo List App - Part 3 – Gesture Control
 
 import UIKit
 
