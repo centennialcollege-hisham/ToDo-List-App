@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ol0-nL-LIL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ol0-nL-LIL">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,47 +31,27 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="239" translatesAutoresizingMaskIntoConstraints="NO" id="lHL-Dt-66r" userLabel="Cell Stack View">
                                                     <rect key="frame" x="16" y="8" width="361" height="60"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Z9R-HS-dCb" userLabel="Labels Stack View">
-                                                            <rect key="frame" x="0.0" y="0.0" width="42.666666666666664" height="60"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Z9R-HS-dCb" userLabel="Labels Stack View">
+                                                            <rect key="frame" x="0.0" y="0.0" width="361" height="60"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTo-3k-lZx">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="42.666666666666664" height="34"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTo-3k-lZx">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="361" height="26"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" ambiguous="YES" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTT-S7-dO8">
-                                                                    <rect key="frame" x="0.0" y="42" width="42.666666666666664" height="18"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTT-S7-dO8">
+                                                                    <rect key="frame" x="0.0" y="34" width="361" height="26"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <nil key="textColor"/>
                                                                     <color key="highlightedColor" red="0.22127345200000001" green="0.29009222979999999" blue="0.33608382939999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sEv-J4-VbQ" userLabel="Buttons Swift Edit Stack View">
-                                                            <rect key="frame" x="281.66666666666669" y="0.0" width="79.333333333333314" height="60"/>
-                                                            <subviews>
-                                                                <switch opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TtI-Kt-kIa">
-                                                                    <rect key="frame" x="0.0" y="14.666666666666668" width="81.333333333333329" height="31.000000000000004"/>
-                                                                    <connections>
-                                                                        <action selector="completeTaskSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="CKv-4a-84m"/>
-                                                                        <action selector="labelStatus:" destination="1mJ-uU-hi4" eventType="valueChanged" id="IZN-eT-73G"/>
-                                                                        <action selector="statusSwitch:" destination="1mJ-uU-hi4" eventType="valueChanged" id="wCf-el-lld"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="79.329999999999998" id="f1C-uK-1FG"/>
-                                                            </constraints>
-                                                        </stackView>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="Z9R-HS-dCb" firstAttribute="top" secondItem="lHL-Dt-66r" secondAttribute="top" id="5SM-cT-NGL"/>
-                                                        <constraint firstAttribute="trailing" secondItem="sEv-J4-VbQ" secondAttribute="trailing" id="9Fn-tu-pRx"/>
                                                         <constraint firstItem="Z9R-HS-dCb" firstAttribute="leading" secondItem="lHL-Dt-66r" secondAttribute="leading" id="Pt6-Gm-xbO"/>
-                                                        <constraint firstItem="sEv-J4-VbQ" firstAttribute="leading" secondItem="Z9R-HS-dCb" secondAttribute="trailing" id="W3e-lC-0iG"/>
-                                                        <constraint firstItem="sEv-J4-VbQ" firstAttribute="top" secondItem="lHL-Dt-66r" secondAttribute="top" id="dsX-R3-Sum"/>
-                                                        <constraint firstAttribute="bottom" secondItem="sEv-J4-VbQ" secondAttribute="bottom" id="u1l-Ol-SdT"/>
                                                         <constraint firstAttribute="bottom" secondItem="Z9R-HS-dCb" secondAttribute="bottom" id="vQ4-6b-0cB"/>
                                                     </constraints>
                                                 </stackView>
@@ -86,7 +66,6 @@
                                         <connections>
                                             <outlet property="labelStatus" destination="FTT-S7-dO8" id="bBT-1x-r56"/>
                                             <outlet property="labelTitle" destination="uTo-3k-lZx" id="cH6-eV-1NA"/>
-                                            <outlet property="switchStatus" destination="TtI-Kt-kIa" id="1Eq-rz-I1K"/>
                                             <segue destination="L8e-5g-vaY" kind="show" identifier="ShowDetail" id="qDY-DF-hI3"/>
                                         </connections>
                                     </tableViewCell>
@@ -114,16 +93,15 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <exit id="1mJ-uU-hi4" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="296.94656488549617" y="-108.45070422535211"/>
+            <point key="canvasLocation" x="169" y="338"/>
         </scene>
         <!--To Do Detail Table View Controller-->
         <scene sceneID="dNV-yV-Yua">
             <objects>
                 <tableViewController id="L8e-5g-vaY" customClass="ToDoDetailTableViewController" customModule="TodoListAppPart1" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Mkd-Wa-wzZ">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <sections>
@@ -286,7 +264,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qDY-DF-hI3"/>
+        <segue reference="reu-vy-cKw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

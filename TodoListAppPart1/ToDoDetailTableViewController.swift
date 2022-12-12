@@ -35,7 +35,7 @@ class ToDoDetailTableViewController: UITableViewController {
     @IBOutlet weak var dateLabel: UILabel!
     
     var toDoItem: ToDoItem!
-    
+    var indexPath: IndexPath?
     let datePickerIndexPath = IndexPath(row: 1, section: 1)
     let notesTextViewIndexPath = IndexPath(row: 0, section: 2)
     let notesRowHeight: CGFloat = 200

@@ -37,7 +37,6 @@ class CustomCellTableViewCell: UITableViewCell {
     // Object from custom view cell title status and switch
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelStatus: UILabel!
-    @IBOutlet weak var switchStatus: UISwitch!
     
     var IndexCell: Int?
     // even for completed tasks
@@ -46,17 +45,10 @@ class CustomCellTableViewCell: UITableViewCell {
     func putDataInControlsCell(cellData: ToDoItem , indexRow: Int ){
         
         IndexCell = indexRow
-        
-        if (cellData.isCompleted == true){
-            switchStatus.isOn = false
-        } else {
-            switchStatus.isOn = true
-        }
+
         
         if(cellData.statusTask == 1){
-            
-            //switchStatus.setOn(false, animated: false)
-            
+                        
             let attributedText = NSAttributedString(
                 string: cellData.name,
                 attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue]

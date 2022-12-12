@@ -185,12 +185,19 @@ class ToDoListViewController: UIViewController {
         setNotifications()
         
     }
+
+    func removeTask(at indexPath: IndexPath) {
+        self.toDoItems.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        self.saveData()
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail" {
             let destination = segue.destination as! ToDoDetailTableViewController
-            let selectedIndexPath = tableView.indexPathForSelectedRow!
+            let selectedIndexPath = sender as? IndexPath ?? tableView.indexPathForSelectedRow!
             destination.toDoItem = toDoItems[selectedIndexPath.row]
+            destination.indexPath = selectedIndexPath
         } else {
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 tableView.deselectRow(at: selectedIndexPath, animated: true)
@@ -201,7 +208,7 @@ class ToDoListViewController: UIViewController {
     @IBAction func unwindFromDetail(segue: UIStoryboardSegue) {
         var indexSelectedCell: Int
         let source = segue.source as! ToDoDetailTableViewController
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+        if let selectedIndexPath = source.indexPath ?? tableView.indexPathForSelectedRow {
             indexSelectedCell = selectedIndexPath.row
             toDoItems[selectedIndexPath.row] = source.toDoItem
             tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
@@ -221,31 +228,6 @@ class ToDoListViewController: UIViewController {
         saveData()
         loadData()
         setSelectionCell( indexCell: indexSelectedCell) 
-    }
-    // update is complete
-    @IBAction func completeTaskSwitch(_ sender: UISwitch) {
-       
-        if let selectedCell = tableView.indexPathForSelectedRow{
-            var indexSelectedCell: Int
-            
-            indexSelectedCell = selectedCell.row
-            
-            // The cell is selected
-            if(sender.isOn == true){
-                toDoItems[selectedCell.row].isCompleted = false
-            } else {
-                toDoItems[selectedCell.row].isCompleted = true
-            }
-            setSelectionCell( indexCell: indexSelectedCell)
-            saveData()
-            
-            // reload all items with currend date
-            loadData()
-            setSelectionCell( indexCell: indexSelectedCell)
-        } else {
-            
-        }
-        
     }
     
     @IBAction func editButtomPressed(_ sender: UIBarButtonItem) {
@@ -288,9 +270,7 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            toDoItems.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            saveData()
+            self.removeTask(at: indexPath)
         }
     }
     
@@ -300,5 +280,39 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
         toDoItems.insert(itemToMove, at: destinationIndexPath.row)
         saveData()
     }
-    
+
+    // Leading -> Left
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(style: .normal, title: "Edit", handler: { (action, sourceView, completionHandler) in
+            self.performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+        })
+
+        editAction.backgroundColor = .blue
+
+        return UISwipeActionsConfiguration(actions: [editAction])
+    }
+
+    // Trailing -> Right
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let completeAction = UIContextualAction(style: .normal, title: "Complete", handler: { (action, sourceView, completionHandler) in
+            self.toDoItems[indexPath.row].isCompleted = true
+            self.setSelectionCell(indexCell: indexPath.row)
+            self.saveData()
+
+            // reload all items with current date
+            self.loadData()
+            self.setSelectionCell(indexCell: indexPath.row)
+        })
+
+        completeAction.backgroundColor = .orange
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, sourceView, completionHandler) in
+            self.removeTask(at: indexPath)
+        })
+
+        deleteAction.backgroundColor = .red
+
+        return UISwipeActionsConfiguration(actions: [deleteAction, completeAction])
+    }
+
 }
